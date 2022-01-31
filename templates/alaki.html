@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>user agent</title>
+</head>
+<body>
+{% load user_agents %}
+
+{% if request|is_mobile %}
+    Mobile device stuff...
+{% endif %}
+
+{% if request|is_tablet %}
+    Tablet stuff...
+{% endif %}
+
+{% if request|is_pc %}
+    <p>PC stuff...</p>
+{% endif %}
+
+{% if request|is_touch_capable %}
+    Touch capable device stuff...
+{% endif %}
+
+{% if request|is_bot %}
+    Bot stuff...
+{% endif %}
+</body>
+</html>
