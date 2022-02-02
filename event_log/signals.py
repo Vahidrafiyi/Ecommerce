@@ -20,11 +20,6 @@ def log_user_login(sender, request, user, **kwargs):
             print("The client's IP address is publicly routable on the Internet")
         else:
             print("The client's IP address is private")
-    user = User(username=User.username, password=User.password)
-    user.save()
-    obj = LogUserInfo.objects.create(user=user, action='login', date=datetime.now, ip=ip)
-    obj.save()
-    print(obj)
 @receiver(user_logged_out)
 def log_user_logout(sender, request, user, **kwargs):
     print(f'user {User.username} logged out')

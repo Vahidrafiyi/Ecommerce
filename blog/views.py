@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import permissions
-from rest_framework.viewsets import ViewSet
 
 from blog.serializers import ArticleSerializer, CommentSerializer
 from blog.models import Article, Comment
@@ -33,7 +32,7 @@ class AddArticle(APIView):
 class CommentRelatedToArticle(APIView):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     def get(self, request, pk):
-        query = Comment.objects.filter(article=pk)
+        query = Comment.objects.filter(article=pk , active=True)
         serializer = CommentSerializer(query, many=True, context={'request' : request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
