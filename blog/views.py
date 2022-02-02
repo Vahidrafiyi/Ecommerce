@@ -3,9 +3,11 @@ from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import permissions
+from rest_framework import generics
+from rest_framework.exceptions import ValidationError
 
-from blog.serializers import ArticleSerializer, CommentSerializer
-from blog.models import Article, Comment
+from blog.serializers import ArticleSerializer, CommentSerializer, VoteSerializer
+from blog.models import Article, Comment, Vote
 
 
 # Create your views here.
@@ -43,3 +45,17 @@ class CommentRelatedToArticle(APIView):
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class VoteCreate(generics.CreateAPIView):
+    serializer_class = VoteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        comment = Comment.objects.get(pk=self.kwargs['pk'])
+        return Vote.objects.filter(voter=user, comment=comment)
+
+    def perform_create(self, serializer):
+        if self.get_queryset().exists():
+            raise ValidationError ('you have already voted for this post :)')
+        serializer.save(voter=self.request.user, comment=Comment.objects.get(pk=self.kwargs['pk']))

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Article(models.Model):
@@ -45,3 +46,4 @@ class Comment(models.Model):
 
 class Vote(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    voter = models.ForeignKey(User, on_delete=models.CASCADE)

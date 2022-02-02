@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Article, Comment
+from blog.models import Article, Comment, Vote
 
 
 class ArticleSerializer(serializers.ModelSerializer):
@@ -12,4 +12,9 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         fields = '__all__'
         depth = 1
+
+class VoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Vote
+        fields = ['id']
 
