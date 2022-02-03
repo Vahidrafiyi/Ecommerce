@@ -47,3 +47,6 @@ class Comment(models.Model):
 class Vote(models.Model):
     comment = models.ForeignKey(Comment, on_delete=models.CASCADE)
     voter = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.voter.username + ' voted on ' + self.comment.article.article_title
