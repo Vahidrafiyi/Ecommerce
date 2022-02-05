@@ -2,8 +2,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework import permissions
-from rest_framework import generics
+from rest_framework import generics, permissions, mixins
 from rest_framework.exceptions import ValidationError
 
 from blog.serializers import ArticleSerializer, CommentSerializer, VoteSerializer
@@ -46,9 +45,9 @@ class CommentRelatedToArticle(APIView):
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class VoteCreate(generics.CreateAPIView):
+class VoteCreate(generics.CreateAPIView, mixins.DestroyModelMixin):
     serializer_class = VoteSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user
@@ -59,3 +58,10 @@ class VoteCreate(generics.CreateAPIView):
         if self.get_queryset().exists():
             raise ValidationError ('you have already voted for this post :)')
         serializer.save(voter=self.request.user, comment=Comment.objects.get(pk=self.kwargs['pk']))
+
+    def delete(self, request, *args, **kwargs):
+        if self.get_queryset().exists():
+            self.get_queryset().delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        else:
+            raise ValidationError('you never voted for this post...silly!')
