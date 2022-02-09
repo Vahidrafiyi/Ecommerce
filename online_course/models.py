@@ -1,7 +1,7 @@
 from django.db import models
 import datetime
 from django.contrib.auth.models import User
-
+from django_jalali.db import models as jmodels
 class OnlineCourse(models.Model):
     class CourseLevel(models.TextChoices):
         BEGINNER = 'مبتدی'
@@ -30,7 +30,7 @@ class OnlineCourse(models.Model):
     # online_course_teacher = models.ForeignKey()
     online_course_description = models.TextField(default='')
     online_course_duration = models.DurationField(default=datetime.timedelta(days=2).total_seconds())
-    online_course_date = models.DateTimeField(auto_now_add=True)
+    online_course_date = jmodels.jDateTimeField(auto_now_add=True)
     online_course_image = models.ImageField(upload_to='images/', default='')
     number_of_videos = models.IntegerField(default=1)
     online_course_level = models.CharField(max_length=100, choices=CourseLevel.choices, default=CourseLevel.BEGINNER)

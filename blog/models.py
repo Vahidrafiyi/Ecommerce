@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django_jalali.db import models as jmodels
 # Create your models here.
 class Article(models.Model):
     article_title = models.CharField(max_length=250)
     article_body = models.TextField()
     article_alt = models.TextField(default='', null=True, blank=True)
     article_image = models.ImageField(upload_to='store_image/blog_image/', null=True, blank=True)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = jmodels.jDateTimeField(auto_now_add=True)
+    updated = jmodels.jDateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         self.article_alt = self.article_title + ' متن تست '
@@ -23,8 +23,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(null=True)
     body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    created = jmodels.jDateTimeField(auto_now_add=True)
     active = models.BooleanField(default=False)
     parent = models.ForeignKey("self", null=True, blank=True, on_delete=models.CASCADE)
 

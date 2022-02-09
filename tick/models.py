@@ -1,5 +1,6 @@
 import datetime
 from django.db import models
+from django_jalali.db import models as jmodels
 from online_course.models import OnlineCourse
 from tick.utils import create_new_number
 class Ticket(models.Model):
@@ -27,8 +28,7 @@ class Ticket(models.Model):
     ticket_title = models.CharField(max_length=100, default='')
     ticket_file = models.FileField(upload_to='files/ticket_files/', default='', null=True, blank=True)
     ticket_status = models.CharField(max_length=100, choices=STATUS, default=STATUS[0])
-    created_at = models.DateTimeField(default=datetime.datetime.now)
-    updated_at = models.DateTimeField(default=datetime.datetime.now)
+    created_at = jmodels.jDateTimeField(default=datetime.datetime.now)
 
     def __str__(self):
         return self.ticket_title + '/ code: ' + str(self.identical)

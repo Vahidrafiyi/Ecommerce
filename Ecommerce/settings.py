@@ -48,11 +48,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'online_course',
     'django_user_agents',
-    'eventlog',
     'ipware',
     'event_log',
     'tick',
     'blog',
+    'django_jalali',
 ]
 SITE_ID = 1
 MIDDLEWARE = [
@@ -133,12 +133,15 @@ USER_AGENTS_CACHE = 'default'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
+from pytz import all_timezones
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
