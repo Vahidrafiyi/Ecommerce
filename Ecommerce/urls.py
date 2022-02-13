@@ -18,13 +18,15 @@ from django.urls import path, include
 from online_course.views import my_view
 from django.conf import settings
 from django.conf.urls.static import static
+from consulting.views import ConslutFormAPI
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('online_course/', include('online_course.urls')),
     path('', my_view),
     path('ticket/', include('tick.urls')),
     path('blog/', include('blog.urls')),
-    path('event_log/', include('event_log.urls'))
+    path('event_log/', include('event_log.urls')),
+    path('consult', ConslutFormAPI.as_view())
 ]
 
 if settings.DEBUG:

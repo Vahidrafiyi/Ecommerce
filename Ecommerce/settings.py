@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'tick',
     'blog',
     'django_jalali',
+    'consulting',
 ]
 SITE_ID = 1
 MIDDLEWARE = [

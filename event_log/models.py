@@ -18,9 +18,7 @@ class LogUserActivity(models.Model):
     user = models.CharField(max_length=100)
     action = models.CharField(max_length=20, default=LOG_ACTIONS[0][0], choices=LOG_ACTIONS, verbose_name= 'action')
     date = jmodels.jDateTimeField(auto_now_add=True)
-    browser = models.CharField(max_length=100, default='chrome')
-    device = models.CharField(max_length=100, default='pc')
-    os = models.CharField(max_length=100, default='windows')
+    user_agent = models.CharField(max_length=100, default='chrome')
     ip = models.GenericIPAddressField()
 
     class Meta:

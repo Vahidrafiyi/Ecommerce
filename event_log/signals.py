@@ -7,13 +7,17 @@ from user_agents import parse
 def log_user_login(sender, request, user, **kwargs):
     ua_string = request.META.get('HTTP_USER_AGENT')
     user_agent = parse(ua_string)
-    LogUserActivity.objects.create(user=request.user.get_username(), ip=request.META.get('REMOTE_ADDR'), browser=user_agent.browser, os=user_agent.os)
+    LogUserActivity.objects.create(user=request.user.get_username(), ip=request.META.get('REMOTE_ADDR'), user_agent=str(user_agent))
 
 @receiver(user_logged_out)
 def log_user_logout(sender, request, user, **kwargs):
-    LogUserActivity.objects.create(user=request.user.get_username(), ip=request.META.get('REMOTE_ADDR'), action=LogUserActivity.LOG_ACTIONS[4][0])
+    ua_string = request.META.get('HTTP_USER_AGENT')
+    user_agent = parse(ua_string)
+    LogUserActivity.objects.create(user=request.user.get_username(), ip=request.META.get('REMOTE_ADDR'), action=LogUserActivity.LOG_ACTIONS[4][0], user_agent=str(user_agent))
 @receiver(user_login_failed)
 def log_user_failed_login(sender, credentials, request, **kwargs):
-    LogUserActivity.objects.create(user=credentials['username'], ip=request.META.get('REMOTE_ADDR'), action=LogUserActivity.LOG_ACTIONS[6][0])
+    ua_string = request.META.get('HTTP_USER_AGENT')
+    user_agent = parse(ua_string)
+    LogUserActivity.objects.create(user=credentials['username'], ip=request.META.get('REMOTE_ADDR'), action=LogUserActivity.LOG_ACTIONS[6][0], user_agent=str(user_agent))
 
 from django.contrib.admin.models import LogEntry
