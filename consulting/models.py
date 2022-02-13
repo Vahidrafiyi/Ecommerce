@@ -28,3 +28,13 @@ class ConsultationForm(models.Model):
 
     def __str__(self):
         return self.full_name + " درخواست مشاوره داده است "
+
+
+
+class ConfirmedRequest(models.Model):
+    request = models.ForeignKey(ConsultationForm, on_delete=models.CASCADE)
+    price = models.BigIntegerField()
+    response = models.TextField()
+
+    def __str__(self):
+        return "درخواست {} تایید شد".format(self.request.full_name)
